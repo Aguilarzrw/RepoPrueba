@@ -22,6 +22,7 @@ function renderAdmin(){let units=products.reduce((s,p)=>s+p.stock,0);$("#adminSt
 $("#filters").addEventListener("click",e=>{let b=e.target.closest("[data-category]");if(!b)return;category=b.dataset.category;document.querySelectorAll(".filter").forEach(x=>x.classList.toggle("active",x===b));render()});
 $("#searchInput").addEventListener("input",render);$("#sortSelect").addEventListener("change",render);
 $("#productGrid").addEventListener("click",e=>{let a=e.target.closest("[data-add]"),d=e.target.closest("[data-detail]");if(a)add(a.dataset.add);if(d)showDetail(d.dataset.detail)});
+$("#productDetail").addEventListener("click",e=>{let a=e.target.closest("[data-add]");if(a){add(a.dataset.add);closeLayers()}});
 $("#cartItems").addEventListener("click",e=>{let b=e.target.closest("[data-qty]");if(!b)return;let id=b.dataset.qty;cart[id]=Math.max(0,(cart[id]||0)+Number(b.dataset.delta));updateCart()});
 $("#cartOpen").onclick=()=>{updateCart();openLayer($("#cartDrawer"))};$("#adminOpen").onclick=()=>{renderAdmin();openLayer($("#adminModal"))};$("#overlay").onclick=closeLayers;document.querySelectorAll("[data-close]").forEach(b=>b.onclick=closeLayers);document.addEventListener("keydown",e=>{if(e.key==="Escape")closeLayers()});
 $("#checkoutBtn").onclick=()=>{if(!Object.values(cart).some(n=>n>0))return notify("Añade al menos un producto para probar.");orders++;cart={};updateCart();closeLayers();notify("¡Pedido de prueba registrado! No se realizó ningún pago.")};
